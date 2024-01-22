@@ -75,15 +75,15 @@ class MovieDetail(View):
         except Movie.DoesNotExist:
             return redirect('myflixapp:profile-list')
 
-method_decorator(login_required, name='dispatch')
+@method_decorator(login_required, name='dispatch')
 class PlayMovie(View):
     def get(self, request, movie_id, *args, **kwargs):
         try:
             movie = Movie.objects.get(uuid=movie_id)
-            movie = movie.video.values()
+            videos = movie.video.all()
             
             context = {
-                'movie':list(movie)
+                'videos': videos
             }
 
             return render(request, 'playmovie.html', context)
